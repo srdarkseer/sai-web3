@@ -27,20 +27,23 @@ const Landing = () => {
             securely stores users&apos; payment information and passwords for
             numerous payment methods and websites.
           </p>
-          {wallet ? (
-            <Button variant="default" size="lg">
-              Create Data
-            </Button>
-          ) : (
-            <Button
-              variant="default"
-              size="lg"
-              onClick={() => (wallet ? disconnect(wallet) : connect())}
-            >
-              Create Data
-            </Button>
-          )}
-          ;
+
+          <div className="w-full flex justify-center">
+            {wallet ? (
+              <Button variant="default" size="lg" className="w-full">
+                Create Data
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="lg"
+                className="w-full"
+                onClick={() => (wallet ? disconnect(wallet) : connect())}
+              >
+                Create Data
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="col-span-7 flex h-full justify-center">
