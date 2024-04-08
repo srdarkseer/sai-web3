@@ -48,6 +48,10 @@ const config = {
           DEFAULT: "#0F231D",
           foreground: "hsl(var(--forestGreen-foreground))",
         },
+        charcoal: {
+          DEFAULT: "#212121",
+          foreground: "hsl(var(--charcoal-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
