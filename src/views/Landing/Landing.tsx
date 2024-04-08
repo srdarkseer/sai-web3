@@ -3,7 +3,19 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 
+import { useConnectWallet } from "@web3-onboard/react";
+import { ethers } from "ethers";
+
 const Landing = () => {
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
+  // create an ethers provider
+  let ethersProvider;
+
+  if (wallet) {
+    ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
+  }
+
   return (
     <div className="h-[90vh] container flex items-center justify-center">
       <div className="grid grid-cols-12 h-[526px] gap-4">
@@ -15,15 +27,29 @@ const Landing = () => {
             securely stores users&apos; payment information and passwords for
             numerous payment methods and websites.
           </p>
-
-          <Button variant="default" size="lg">
-            Create Data
-          </Button>
+          {wallet ? (
+            <Button variant="default" size="lg">
+              Create Data
+            </Button>
+          ) : (
+            <Button
+              variant="default"
+              size="lg"
+              onClick={() => (wallet ? disconnect(wallet) : connect())}
+            >
+              Create Data
+            </Button>
+          )}
+          ;
         </div>
 
         <div className="col-span-7 flex h-full justify-center">
-          <Image src="/images/landing-bg.png" height={410} width={720} alt="Side Image" />
-
+          <Image
+            src="/images/landing-bg.png"
+            height={410}
+            width={720}
+            alt="Side Image"
+          />
         </div>
       </div>
     </div>
