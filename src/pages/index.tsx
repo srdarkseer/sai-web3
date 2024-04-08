@@ -1,9 +1,15 @@
-import { Button } from "@/components/ui/button";
+import React from "react";
 
-export default function Home() {
+import WithLayout from "@/components/WithLayout";
+import MainLayout from "@/layouts/MainLayout";
+import Landing from "@/views/Landing";
+
+const Home = () => {
   return (
-    <div>
-      <Button>Click me</Button>
-    </div>
+    <React.Fragment>
+      <WithLayout layout={MainLayout} component={Landing} />
+    </React.Fragment>
   );
-}
+};
+
+export default Home;
