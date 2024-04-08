@@ -1,11 +1,13 @@
 import React, { useState, useEffect, FC } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Components Import
 import { Button } from "@/components/ui/button";
 
-// Icons Import
-import Image from "next/image";
+// Web3 Import
+import { useConnectWallet } from "@web3-onboard/react";
+import { ethers } from "ethers";
 
 const TopBar: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,6 +24,15 @@ const TopBar: FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
+  // create an ethers provider
+  let ethersProvider;
+
+  if (wallet) {
+    ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
+  }
 
   return (
     <header
@@ -48,8 +59,18 @@ const TopBar: FC = () => {
         </div>
 
         {/* Button Section */}
-        <Button variant="whiteBg" size="default" className="font-light">
-          Authorize with wallet
+        <Button
+          variant="whiteBg"
+          size="default"
+          className="font-light"
+          disabled={connecting}
+          onClick={() => (wallet ? disconnect(wallet) : connect())}
+        >
+          {connecting
+            ? "Connecting"
+            : wallet
+            ? "Disconnect"
+            : "Authorize with wallet"}
         </Button>
       </div>
     </header>
