@@ -12,8 +12,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { MdAddBox } from "react-icons/md";
+import Link from "next/link";
 
 const PopUpModal = () => {
   return (
@@ -37,11 +46,25 @@ const PopUpModal = () => {
                 <Input id="name" type="text" placeholder="Enter your name" />
               </div>
               <div className="col-span-5 space-y-4">
-                <Label htmlFor="date">Date Type</Label>
-                <Input id="name" type="date" />
+                <Label htmlFor="date">Data Type</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Data Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="string">String</SelectItem>
+                      <SelectItem value="integer">Integer</SelectItem>
+                      <SelectItem value="float">Float</SelectItem>
+                      <SelectItem value="regular">Regular</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="col-span-1 flex h-full items-center justify-center">
-                <MdAddBox className="w-6 h-6 text-primary mt-9 " />
+                <Button variant="clear" size="icon" className=" mt-9 ">
+                  <MdAddBox className="w-6 h-6 text-primary" />
+                </Button>
               </div>
             </div>
           </div>
