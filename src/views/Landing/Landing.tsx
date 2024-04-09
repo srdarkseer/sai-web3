@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
+import PopUpModal from "./components/PopUpModal";
 
 const Landing = () => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
@@ -30,9 +31,9 @@ const Landing = () => {
 
           <div className="w-full flex justify-center">
             {wallet ? (
-              <Button variant="default" size="lg" className="w-full">
-                Create Data
-              </Button>
+              <div className="w-full">
+                <PopUpModal />
+              </div>
             ) : (
               <Button
                 variant="default"
