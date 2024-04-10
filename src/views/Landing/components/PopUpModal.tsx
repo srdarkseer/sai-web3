@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -21,10 +20,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { MdAddBox } from "react-icons/md";
-import Link from "next/link";
+import { generateData } from "@/store/api";
 
 const PopUpModal = () => {
+  const [dataType, setDataType] = useState("");
+  const [numRows, setNumRows] = useState("");
+  const [batchSize, setBatchSize] = useState("200");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleBatchSizeChange = (e: any) => {
+    const newValue = parseInt(e.target.value, 10);
+    if (!isNaN(newValue)) {
+      setBatchSize(newValue.toString());
+    }
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    if (fileInputRef.current?.files?.[0]) {
+      formData.append("file", fileInputRef.current.files[0]);
+    }
+    formData.append("data_type", dataType);
+    formData.append("num_rows", numRows);
+    formData.append("batch_size", batchSize);
+
+    try {
+      const responseData = await generateData(formData);
+      console.log(responseData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <Dialog>
@@ -37,41 +64,54 @@ const PopUpModal = () => {
           <DialogHeader>
             <DialogTitle>Create Data</DialogTitle>
           </DialogHeader>
-          <div className="space-y-14 pt-12">
-            <Textarea placeholder="Type your prompt here." />
+          <div className="space-y-6 pt-12">
+            <div>
+              <Label>Data Type</Label>
+              <Select onValueChange={setDataType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Data Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="regular">Regular</SelectItem>
+                    <SelectItem value="timeseries">Timeseries</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <div className="grid grid-cols-11 gap-3 border border-gray-400 rounded-lg p-4">
-              <div className="col-span-5 space-y-4">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" type="text" placeholder="Enter your name" />
-              </div>
-              <div className="col-span-5 space-y-4">
-                <Label htmlFor="date">Data Type</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Data Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="string">String</SelectItem>
-                      <SelectItem value="integer">Integer</SelectItem>
-                      <SelectItem value="float">Float</SelectItem>
-                      <SelectItem value="regular">Regular</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-1 flex h-full items-center justify-center">
-                <Button variant="clear" size="icon" className=" mt-9 ">
-                  <MdAddBox className="w-6 h-6 text-primary" />
-                </Button>
-              </div>
+            <div>
+              <Label htmlFor="file">CSV file</Label>
+              <Input ref={fileInputRef} id="file" type="file" />
+            </div>
+
+            <div>
+              <Label htmlFor="num_rows">Rows Number</Label>
+              <Input
+                id="num_rows"
+                type="number"
+                placeholder="Enter number of rows"
+                value={numRows}
+                onChange={(e) => setNumRows(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="batch_size">Batch Size</Label>
+              <Input
+                id="batch_size"
+                type="number"
+                defaultValue={batchSize}
+                placeholder="Enter batch size"
+                onChange={handleBatchSizeChange}
+              />
             </div>
           </div>
           <DialogFooter>
             <Button
+              onClick={handleSubmit}
               variant="default"
-              type="submit"
+              type="button"
               size="default"
               className="w-full"
             >
