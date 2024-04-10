@@ -55,12 +55,28 @@ const PopUpModal = () => {
     try {
       const responseData = await generateData(formData);
       console.log(responseData);
+      setResponse(responseData);
       setCurrentStep("result");
     } catch (error) {
       console.error(error);
       setCurrentStep("form");
     }
   };
+
+  const downloadCSV = () => {
+    const csvData = response;
+    const blob = new Blob([csvData], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
+  console.log({ response });
 
   return (
     <div>
@@ -145,8 +161,22 @@ const PopUpModal = () => {
           )}
 
           {currentStep === "result" && (
-            <div>
-              <pre>{JSON.stringify(response, null, 2)}</pre>
+            <div className="h-full w-full flex flex-col gap-6 items-center justify-center">
+              <Image
+                src="/images/download.svg"
+                height={180}
+                width={150}
+                alt="Loader"
+              />
+              <Button
+                variant="default"
+                type="button"
+                size="default"
+                className="w-full"
+                onClick={downloadCSV}
+              >
+                Download CSV file
+              </Button>
             </div>
           )}
         </DialogContent>
