@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import {
 } from "@/components/ui/select";
 
 import { generateData } from "@/store/api";
-import Image from "next/image";
 
 const PopUpModal = () => {
   // State for managing the multi-step process
@@ -81,11 +81,19 @@ const PopUpModal = () => {
     window.URL.revokeObjectURL(url);
   };
 
-  console.log({ response });
+  const resetForm = () => {
+    setCurrentStep("form");
+  };
 
   return (
     <div>
-      <Dialog>
+      <Dialog
+        onOpenChange={(open) => {
+          if (!open) {
+            resetForm();
+          }
+        }}
+      >
         <DialogTrigger asChild>
           <Button variant="default" size="lg" className="w-full">
             Create Data
