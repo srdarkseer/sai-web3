@@ -21,11 +21,18 @@ import {
 } from "@/components/ui/select";
 
 import { generateData } from "@/store/api";
+import Image from "next/image";
 
 const PopUpModal = () => {
+  // State for managing the multi-step process
+  const [currentStep, setCurrentStep] = useState("form"); // "form", "loading", "result"
+  const [response, setResponse] = useState(null);
+
+  // State for form inputs
   const [dataType, setDataType] = useState("");
   const [numRows, setNumRows] = useState("");
   const [batchSize, setBatchSize] = useState("200");
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleBatchSizeChange = (e: any) => {
@@ -36,6 +43,7 @@ const PopUpModal = () => {
   };
 
   const handleSubmit = async () => {
+    setCurrentStep("loading");
     const formData = new FormData();
     if (fileInputRef.current?.files?.[0]) {
       formData.append("file", fileInputRef.current.files[0]);
@@ -47,8 +55,10 @@ const PopUpModal = () => {
     try {
       const responseData = await generateData(formData);
       console.log(responseData);
+      setCurrentStep("result");
     } catch (error) {
       console.error(error);
+      setCurrentStep("form");
     }
   };
 
@@ -61,63 +71,84 @@ const PopUpModal = () => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create Data</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-6 pt-12">
+          {currentStep === "form" && (
             <div>
-              <Label>Data Type</Label>
-              <Select onValueChange={setDataType}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Data Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="regular">Regular</SelectItem>
-                    <SelectItem value="timeseries">Timeseries</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <DialogHeader>
+                <DialogTitle>Create Data</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-6 pt-12">
+                <div>
+                  <Label>Data Type</Label>
+                  <Select onValueChange={setDataType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Data Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="regular">Regular</SelectItem>
+                        <SelectItem value="timeseries">Timeseries</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="file">CSV file</Label>
+                  <Input ref={fileInputRef} id="file" type="file" />
+                </div>
+                <div>
+                  <Label htmlFor="num_rows">Rows Number</Label>
+                  <Input
+                    id="num_rows"
+                    type="number"
+                    placeholder="Enter number of rows"
+                    value={numRows}
+                    onChange={(e) => setNumRows(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="batch_size">Batch Size</Label>
+                  <Input
+                    id="batch_size"
+                    type="number"
+                    defaultValue={batchSize}
+                    placeholder="Enter batch size"
+                    onChange={handleBatchSizeChange}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  onClick={handleSubmit}
+                  variant="default"
+                  type="button"
+                  size="default"
+                  className="w-full"
+                >
+                  Submit
+                </Button>
+              </DialogFooter>
             </div>
+          )}
 
-            <div>
-              <Label htmlFor="file">CSV file</Label>
-              <Input ref={fileInputRef} id="file" type="file" />
-            </div>
-
-            <div>
-              <Label htmlFor="num_rows">Rows Number</Label>
-              <Input
-                id="num_rows"
-                type="number"
-                placeholder="Enter number of rows"
-                value={numRows}
-                onChange={(e) => setNumRows(e.target.value)}
+          {currentStep === "loading" && (
+            <div className="h-full w-full flex flex-col items-center justify-center">
+              <Image
+                src="/images/loader.svg"
+                height={100}
+                width={100}
+                alt="Loader"
               />
+              <p className="font-medium text-charcoal text-base">
+                We are generating your data
+              </p>
             </div>
+          )}
 
+          {currentStep === "result" && (
             <div>
-              <Label htmlFor="batch_size">Batch Size</Label>
-              <Input
-                id="batch_size"
-                type="number"
-                defaultValue={batchSize}
-                placeholder="Enter batch size"
-                onChange={handleBatchSizeChange}
-              />
+              <pre>{JSON.stringify(response, null, 2)}</pre>
             </div>
-          </div>
-          <DialogFooter>
-            <Button
-              onClick={handleSubmit}
-              variant="default"
-              type="button"
-              size="default"
-              className="w-full"
-            >
-              Submit
-            </Button>
-          </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     </div>
