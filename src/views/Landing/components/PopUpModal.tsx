@@ -64,6 +64,11 @@ const PopUpModal = () => {
   };
 
   const downloadCSV = () => {
+    if (!response) {
+      console.error("No CSV data available");
+      return;
+    }
+
     const csvData = response;
     const blob = new Blob([csvData], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
