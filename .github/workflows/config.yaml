@@ -2,7 +2,7 @@ name: Push to ECR
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   build-and-push:
     runs-on: self-hosted
