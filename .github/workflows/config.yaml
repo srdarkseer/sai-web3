@@ -1,0 +1,20 @@
+name: Push to ECR
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build-and-push:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Latest Changes
+        run: |
+          pwd
+          cd ~/sai-web3
+          export PATH=/usr/local/bin:$PATH
+          git pull
+          docker-compose down
+          docker-compose up --build -d
+      - name: Docker system Prune
+        if: success()
+        run: docker system prune -f
