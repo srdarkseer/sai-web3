@@ -182,7 +182,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                 width={100}
                 alt="Loader"
               />
-              <p className="font-medium text-charcoal text-base">
+              <p className="font-medium text-charcoal dark:text-white text-base">
                 We are generating your data
               </p>
             </div>

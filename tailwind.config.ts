@@ -52,6 +52,18 @@ const config = {
           DEFAULT: "#212121",
           foreground: "hsl(var(--charcoal-foreground))",
         },
+        darkGreen: {
+          DEFAULT: "#336656",
+          foreground: "hsl(var(--forestGreen-foreground))",
+        },
+        pine: {
+          DEFAULT: "#19372F",
+          foreground: "hsl(var(--pine-foreground))",
+        },
+        hunterGreen: {
+          DEFAULT: "#162D25",
+          foreground: "hsl(var(--hunterGreen-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
