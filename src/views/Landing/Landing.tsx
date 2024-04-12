@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import PopUpModal from "./components/PopUpModal";
 
 const Landing = () => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // create an ethers provider
   let ethersProvider;
@@ -16,6 +17,18 @@ const Landing = () => {
   if (wallet) {
     ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
   }
+
+  useEffect(() => {
+    if (wallet) {
+      const timer = setTimeout(() => {
+        setIsModalOpen(true);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [wallet]);
 
   return (
     <div className="h-[90vh] container flex items-center justify-center">
@@ -32,7 +45,7 @@ const Landing = () => {
           <div className="w-full flex justify-center">
             {wallet ? (
               <div className="w-full">
-                <PopUpModal />
+                <PopUpModal isOpen={isModalOpen} />
               </div>
             ) : (
               <Button

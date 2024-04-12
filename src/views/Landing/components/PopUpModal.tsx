@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,13 @@ import {
 
 import { generateData } from "@/store/api";
 
-const PopUpModal = () => {
+const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   // State for managing the multi-step process
   const [currentStep, setCurrentStep] = useState("form"); // "form", "loading", "result"
   const [response, setResponse] = useState(null);
+
+  // Additional states and refs
+  const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // State for form inputs
   const [dataType, setDataType] = useState("");
@@ -41,6 +44,13 @@ const PopUpModal = () => {
       setBatchSize(newValue.toString());
     }
   };
+
+  // Attempt to open the dialog if isOpen changes to true
+  useEffect(() => {
+    if (isOpen && openButtonRef.current) {
+      openButtonRef.current.click();
+    }
+  }, [isOpen]);
 
   const handleSubmit = async () => {
     setCurrentStep("loading");
@@ -95,7 +105,12 @@ const PopUpModal = () => {
         }}
       >
         <DialogTrigger asChild>
-          <Button variant="default" size="lg" className="w-full">
+          <Button
+            ref={openButtonRef}
+            variant="default"
+            size="lg"
+            className="w-full"
+          >
             Create Data
           </Button>
         </DialogTrigger>
