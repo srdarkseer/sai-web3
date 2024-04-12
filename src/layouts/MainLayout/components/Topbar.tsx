@@ -1,9 +1,12 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, FC, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import MyThemeContext from "@/store/myThemeContext";
+
 // Components Import
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 // Web3 Import
 import { useConnectWallet } from "@web3-onboard/react";
@@ -34,6 +37,13 @@ const TopBar: FC = () => {
     ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
   }
 
+  const themeCtx: { isDarkMode?: boolean; toggleThemeHandler: () => void } =
+    useContext(MyThemeContext);
+
+  function toggleThemeHandler(): void {
+    themeCtx.toggleThemeHandler();
+  }
+
   return (
     <header
       className={`fixed z-20 w-full transition-all duration-300 bg-gradient-to-l from-primary to-forestGreen ${
@@ -59,19 +69,22 @@ const TopBar: FC = () => {
         </div>
 
         {/* Button Section */}
-        <Button
-          variant="whiteBg"
-          size="default"
-          className="font-light"
-          disabled={connecting}
-          onClick={() => (wallet ? disconnect(wallet) : connect())}
-        >
-          {connecting
-            ? "Connecting"
-            : wallet
-            ? "Disconnect"
-            : "Authorize with wallet"}
-        </Button>
+        <div className="flex items-center gap-5">
+          <Button
+            variant="whiteBg"
+            size="default"
+            className="font-light"
+            disabled={connecting}
+            onClick={() => (wallet ? disconnect(wallet) : connect())}
+          >
+            {connecting
+              ? "Connecting"
+              : wallet
+              ? "Disconnect"
+              : "Authorize with wallet"}
+          </Button>
+          <Switch id="theme-mode" onClick={toggleThemeHandler} />
+        </div>
       </div>
     </header>
   );
