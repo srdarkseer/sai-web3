@@ -13,12 +13,8 @@ jobs:
           cd ~/sai-web3
           export PATH=/usr/local/bin:$PATH
           git pull
-          npm i
-          npm run build
-          kill $(lsof -t -i:3000)  # Killing any existing process on port 3000
-      - name: Start Application
-        run: |
-          pwd
-          cd ~/sai-web3
-          nohup npm start &
+          docker-compose up --build -d
+          docker system prune -f
+
+        
                   
