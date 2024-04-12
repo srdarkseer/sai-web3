@@ -149,7 +149,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                     onChange={(e) => setNumRows(e.target.value)}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <Label htmlFor="batch_size">Batch Size</Label>
                   <Input
                     id="batch_size"
@@ -158,9 +158,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                     placeholder="Enter batch size"
                     onChange={handleBatchSizeChange}
                   />
-                </div>
+                </div> */}
               </div>
-              <DialogFooter>
+              <DialogFooter className="pt-20">
                 <Button
                   onClick={handleSubmit}
                   variant="default"
