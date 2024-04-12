@@ -62,9 +62,9 @@ const Landing = () => {
 
         <div className="col-span-7 flex h-full justify-center">
           <Image
-            src="/images/landing-bg.png"
-            height={410}
-            width={720}
+            src="/images/sideImage.png"
+            height={242}
+            width={581}
             alt="Side Image"
           />
         </div>
