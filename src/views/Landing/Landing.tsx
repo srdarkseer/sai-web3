@@ -10,6 +10,8 @@ import PopUpModal from "./components/PopUpModal";
 const Landing = () => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [attemptedConnectionFromSection, setAttemptedConnectionFromSection] =
+    useState(false);
 
   // create an ethers provider
   let ethersProvider;
@@ -19,16 +21,14 @@ const Landing = () => {
   }
 
   useEffect(() => {
-    if (wallet) {
-      const timer = setTimeout(() => {
-        setIsModalOpen(true);
-      }, 2000);
-
-      return () => clearTimeout(timer);
+    if (wallet && attemptedConnectionFromSection) {
+      setIsModalOpen(true);
+      // Reset the flag to avoid unintended modal openings.
+      setAttemptedConnectionFromSection(false);
     } else {
       setIsModalOpen(false);
     }
-  }, [wallet]);
+  }, [wallet, attemptedConnectionFromSection]);
 
   return (
     <div className="h-[90vh] container flex items-center justify-center">
@@ -52,7 +52,11 @@ const Landing = () => {
                 variant="default"
                 size="lg"
                 className="w-full"
-                onClick={() => (wallet ? disconnect(wallet) : connect())}
+                onClick={() => {
+                  // Mark the connection attempt coming from this section and try to connect.
+                  setAttemptedConnectionFromSection(true);
+                  connect();
+                }}
               >
                 Create Data
               </Button>
