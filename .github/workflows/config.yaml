@@ -17,4 +17,8 @@ jobs:
           npm run build
           kill $(lsof -t -i:3000)  # Killing any existing process on port 3000
       - name: Start Application
-        run: nohup npm start &
+        run: |
+          pwd
+          cd ~/sai-web3
+          nohup npm start &
+                  
