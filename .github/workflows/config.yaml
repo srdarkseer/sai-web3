@@ -13,4 +13,7 @@ jobs:
           cd ~/sai-web3
           export PATH=/usr/local/bin:$PATH
           git pull
+          npm i
           npm run build
+          kill $(lsof -t -i:3000)
+          nohup npm start &
