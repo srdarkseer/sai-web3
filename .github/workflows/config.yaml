@@ -15,5 +15,6 @@ jobs:
           git pull
           npm i
           npm run build
-          kill $(lsof -t -i:3000)
-          nohup npm start &
+          kill $(lsof -t -i:3000)  # Killing any existing process on port 3000
+      - name: Start Application
+        run: nohup npm start &
