@@ -13,8 +13,4 @@ jobs:
           cd ~/sai-web3
           export PATH=/usr/local/bin:$PATH
           git pull
-          docker-compose down
-          docker-compose up --build -d
-      - name: Docker system Prune
-        if: success()
-        run: docker system prune -f
+          npm run build
