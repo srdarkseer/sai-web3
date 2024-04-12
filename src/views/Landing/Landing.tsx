@@ -33,8 +33,8 @@ const Landing = () => {
   return (
     <div className="h-[90vh] container flex items-center justify-center">
       <div className="grid grid-cols-12 h-[526px] gap-4">
-        <div className="col-span-5 p-10 flex flex-col h-full justify-center gap-24 bg-white rounded-2xl shadow-lg">
-          <p className="text-charcoal text-base text-center font-medium leading-7">
+        <div className="col-span-5 p-10 flex flex-col h-full justify-center gap-24 bg-white dark:bg-pine rounded-2xl shadow-lg">
+          <p className="text-charcoal dark:text-white text-base text-center font-medium leading-7">
             &ldquo;Authorize with wallet&ldquo; typically refers to the process
             of granting access or permission to a service or application using a
             digital wallet. A digital wallet is a software-based system that
@@ -62,9 +62,9 @@ const Landing = () => {
 
         <div className="col-span-7 flex h-full justify-center">
           <Image
-            src="/images/landing-bg.png"
-            height={410}
-            width={720}
+            src="/images/sideImage.png"
+            height={242}
+            width={581}
             alt="Side Image"
           />
         </div>

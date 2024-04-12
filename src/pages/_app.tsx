@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
+import { MyThemeContextProvider } from "../store/myThemeContext";
+
 import { Web3OnboardProvider, init } from "@web3-onboard/react";
 import injectedModule from "@web3-onboard/injected-wallets";
 import infinityWalletModule from "@web3-onboard/infinity-wallet";
@@ -92,8 +94,10 @@ const web3Onboard = init({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Web3OnboardProvider web3Onboard={web3Onboard}>
-      <Component {...pageProps} />
-    </Web3OnboardProvider>
+    <MyThemeContextProvider>
+      <Web3OnboardProvider web3Onboard={web3Onboard}>
+        <Component {...pageProps} />
+      </Web3OnboardProvider>
+    </MyThemeContextProvider>
   );
 }
