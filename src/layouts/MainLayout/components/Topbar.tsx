@@ -58,7 +58,7 @@ const TopBar: FC = () => {
               <div className="relative w-[134px] h-[53px]">
                 <Image
                   src="/images/sai-logo.svg"
-                  fill
+                  layout="fill"
                   alt="SAI Logo"
                   priority
                   className="object-cover"
