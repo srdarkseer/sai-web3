@@ -116,12 +116,14 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         </DialogTrigger>
         <DialogContent>
           {currentStep === "form" && (
-            <div>
+            <div className="h-full flex flex-col justify-center">
               <DialogHeader>
-                <DialogTitle>Create Data</DialogTitle>
+                <DialogTitle>
+                  <div className="absolute top-10">Create Data</div>
+                </DialogTitle>
               </DialogHeader>
-              <div className="space-y-6 pt-12">
-                <div>
+              <div className="space-y-6 px-6 pb-12 pt-8 bg-hunterGreen rounded-lg">
+                <div className="space-y-2">
                   <Label>Data Type</Label>
                   <Select onValueChange={setDataType}>
                     <SelectTrigger>
@@ -135,11 +137,13 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
+
+                <div className="space-y-2">
                   <Label htmlFor="file">CSV file</Label>
                   <Input ref={fileInputRef} id="file" type="file" />
                 </div>
-                <div>
+
+                <div className="space-y-2">
                   <Label htmlFor="num_rows">Rows Number</Label>
                   <Input
                     id="num_rows"
