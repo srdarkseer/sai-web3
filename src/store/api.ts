@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const generateData = async (formData: any) => {
   try {
-    const response = await api.post("/data/generate", formData, {
+    const response = await api.post("/data/generate/new", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return response.data;

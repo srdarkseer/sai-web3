@@ -172,7 +172,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   size="default"
                   className="w-full"
                 >
-                  Submit
+                  Generate
                 </Button>
               </DialogFooter>
             </div>
