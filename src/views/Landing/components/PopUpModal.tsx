@@ -122,36 +122,81 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   <div className="absolute top-10">Create Data</div>
                 </DialogTitle>
               </DialogHeader>
-              <div className="space-y-6 px-6 pb-12 pt-8 bg-hunterGreen rounded-lg">
+              <div className="space-y-6 px-6 pb-12 pt-8 bg-hunterGreen rounded-lg mt-10">
                 <div className="space-y-2">
                   <Label>Data Type</Label>
-                  <Select onValueChange={setDataType}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Data Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="regular">Regular</SelectItem>
-                        <SelectItem value="timeseries">Timeseries</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <div className="grid grid-cols-12 gap-3">
+                    <div className="col-span-8">
+                      <Select onValueChange={setDataType}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Data Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="regular">Regular</SelectItem>
+                            <SelectItem value="timeseries">
+                              Timeseries
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="col-span-4">
+                      <p className="text-white text-sm">
+                        Data type is the type of data <br /> -ex. Regular
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="file">CSV file</Label>
-                  <Input ref={fileInputRef} id="file" type="file" />
+
+                  <div className="grid grid-cols-12 gap-3">
+                    <div className="col-span-8">
+                      <Input ref={fileInputRef} id="file" type="file" />
+                    </div>
+
+                    <div className="col-span-4">
+                      <p className="text-white text-sm">
+                        CSV file - ex. Name, ID
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="num_rows">Rows Number</Label>
-                  <Input
-                    id="num_rows"
-                    type="number"
-                    placeholder="Enter number of rows"
-                    value={numRows}
-                    onChange={(e) => setNumRows(e.target.value)}
-                  />
+                  <Label htmlFor="num_rows">Number of Rows</Label>
+                  <div className="grid grid-cols-12 gap-3">
+                    <div className="col-span-8">
+                      <Input
+                        id="num_rows"
+                        type="number"
+                        placeholder="Enter number of rows"
+                        value={numRows}
+                        onChange={(e) => setNumRows(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="col-span-4">
+                      <p className="text-white text-sm">
+                        Number of rows - how many rows in output field?
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-20">
+                    <Button
+                      onClick={handleSubmit}
+                      variant="default"
+                      type="button"
+                      size="lg"
+                      className="w-60 px-44"
+                    >
+                      Generate
+                    </Button>
+                  </div>
                 </div>
                 {/* <div>
                   <Label htmlFor="batch_size">Batch Size</Label>
@@ -164,17 +209,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   />
                 </div> */}
               </div>
-              <DialogFooter className="pt-20">
-                <Button
-                  onClick={handleSubmit}
-                  variant="default"
-                  type="button"
-                  size="default"
-                  className="w-full"
-                >
-                  Generate
-                </Button>
-              </DialogFooter>
+              {/* <DialogFooter className="pt-20">
+                
+              </DialogFooter> */}
             </div>
           )}
 
