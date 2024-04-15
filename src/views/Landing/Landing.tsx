@@ -21,14 +21,19 @@ const Landing = () => {
   }
 
   useEffect(() => {
-    if (wallet && attemptedConnectionFromSection) {
-      setIsModalOpen(true);
-      // Reset the flag to avoid unintended modal openings.
-      setAttemptedConnectionFromSection(false);
-    } else {
-      setIsModalOpen(false);
-    }
+    const timeoutId = setTimeout(() => {
+      if (wallet && attemptedConnectionFromSection) {
+        setIsModalOpen(true);
+        // Reset the flag to avoid unintended modal openings.
+        setAttemptedConnectionFromSection(false);
+      }
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [wallet, attemptedConnectionFromSection]);
+
 
   return (
     <div className="h-[90vh] container flex items-center justify-center">
