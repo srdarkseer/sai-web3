@@ -83,7 +83,11 @@ const TopBar: FC = () => {
               ? "Disconnect"
               : "Authorize with wallet"}
           </Button>
-          <Switch id="theme-mode" onClick={toggleThemeHandler} />
+          <Switch
+            defaultChecked={true}
+            id="theme-mode"
+            onClick={toggleThemeHandler}
+          />
         </div>
       </div>
     </header>
