@@ -1,0 +1,76 @@
+
+> sai-web3@0.1.0 start
+> next start
+
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+
+ ✓ Ready in 531ms
+
+> sai-web3@0.1.0 start
+> next start
+
+ ⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1897:16)
+    at listenInCluster (node:net:1945:12)
+    at Server.listen (node:net:2037:7)
+    at /home/ec2-user/sai-web3/node_modules/next/dist/server/lib/start-server.js:279:16
+    at new Promise (<anonymous>)
+    at startServer (/home/ec2-user/sai-web3/node_modules/next/dist/server/lib/start-server.js:190:11)
+    at nextStart (/home/ec2-user/sai-web3/node_modules/next/dist/cli/next-start.js:50:40)
+    at /home/ec2-user/sai-web3/node_modules/next/dist/bin/next:155:54
+    at async main (/home/ec2-user/sai-web3/node_modules/next/dist/bin/next:155:5) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+
+> sai-web3@0.1.0 start
+> next start
+
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+
+ ✓ Ready in 505ms
+
+> sai-web3@0.1.0 start
+> next start
+
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+
+ ✓ Ready in 827ms
+
+> sai-web3@0.1.0 start
+> next start
+
+ ⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1897:16)
+    at listenInCluster (node:net:1945:12)
+    at Server.listen (node:net:2037:7)
+    at /home/ec2-user/sai-web3/node_modules/next/dist/server/lib/start-server.js:279:16
+    at new Promise (<anonymous>)
+    at startServer (/home/ec2-user/sai-web3/node_modules/next/dist/server/lib/start-server.js:190:11)
+    at nextStart (/home/ec2-user/sai-web3/node_modules/next/dist/cli/next-start.js:50:40)
+    at /home/ec2-user/sai-web3/node_modules/next/dist/bin/next:155:54
+    at async main (/home/ec2-user/sai-web3/node_modules/next/dist/bin/next:155:5) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+ ⚠ For production Image Optimization with Next.js, the optional 'sharp' package is strongly recommended. Run 'npm i sharp', and Next.js will use it automatically for Image Optimization.
+Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
+
+> sai-web3@0.1.0 start
+> next start
+
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+
+ ✓ Ready in 491ms
