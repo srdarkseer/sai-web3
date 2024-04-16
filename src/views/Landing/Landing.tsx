@@ -34,17 +34,13 @@ const Landing = () => {
     };
   }, [wallet, attemptedConnectionFromSection]);
 
-
   return (
     <div className="h-[90vh] container flex items-center justify-center">
       <div className="grid grid-cols-12 h-[526px] gap-4">
         <div className="col-span-5 p-10 flex flex-col h-full justify-center gap-24 bg-white dark:bg-pine rounded-2xl shadow-lg">
           <p className="text-charcoal dark:text-white text-base text-center font-medium leading-7">
-            &ldquo;Authorize with wallet&ldquo; typically refers to the process
-            of granting access or permission to a service or application using a
-            digital wallet. A digital wallet is a software-based system that
-            securely stores users&apos; payment information and passwords for
-            numerous payment methods and websites.
+            &ldquo;Quickly generate synthetica data with LLMs and use $SAI as
+            gas.&ldquo;
           </p>
 
           <div className="w-full flex justify-center">
