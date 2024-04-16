@@ -21,12 +21,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import Web3 from "web3";
+
 import { generateData } from "@/store/api";
+
+// Minimal ERC-20 Token ABI
+const tokenABI = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_value",
+        type: "uint256",
+      },
+    ],
+    name: "transfer",
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+      },
+    ],
+    type: "function",
+  },
+];
 
 const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   // State for managing the multi-step process
   const [currentStep, setCurrentStep] = useState("form"); // "form", "loading", "result"
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState<string | null>(null);
 
   // Additional states and refs
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -52,23 +79,67 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     }
   }, [isOpen]);
 
+  const signTransaction = async () => {
+    const web3 = new Web3(
+      Web3.givenProvider ||
+        "https://site1.moralis-nodes.com/eth/fd720cb6405b4cb0b65c949ac11ee75e"
+    );
+    const accounts = await web3.eth.getAccounts();
+    const account = accounts[0];
+
+    const contract = new web3.eth.Contract(
+      tokenABI,
+      "0xe722C6833a0BF4B874C18C3f10cB54fD58A4180A"
+    );
+
+    const tx = {
+      from: account,
+      gas: 200000,
+      to: "0xe722C6833a0BF4B874C18C3f10cB54fD58A4180A",
+      data: contract.methods
+        .transfer(
+          "0x23bFAabAd0240CAEd597e243B804480660F5ab72",
+          web3.utils.toWei("10", "ether")
+        )
+        .encodeABI(), // 10 tokens
+    };
+
+    return web3.eth
+      .sendTransaction(tx)
+      .then((txResponse) => {
+        console.log("Transaction Hash:", txResponse.transactionHash);
+        return { success: true, txHash: txResponse.transactionHash };
+      })
+      .catch((error) => {
+        console.error("Transaction failed:", error);
+        return { success: false, error: error.message };
+      });
+  };
+
   const handleSubmit = async () => {
     setCurrentStep("loading");
-    const formData = new FormData();
-    if (fileInputRef.current?.files?.[0]) {
-      formData.append("file", fileInputRef.current.files[0]);
-    }
-    formData.append("data_type", dataType);
-    formData.append("num_rows", numRows);
-    formData.append("batch_size", batchSize);
 
     try {
-      const responseData = await generateData(formData);
-      console.log(responseData);
-      setResponse(responseData);
-      setCurrentStep("result");
+      const signResponse = await signTransaction();
+      console.log("Transaction Signed:", signResponse);
+
+      if (signResponse.success) {
+        const formData = new FormData();
+        if (fileInputRef.current?.files?.[0]) {
+          formData.append("file", fileInputRef.current.files[0]);
+        }
+        formData.append("data_type", dataType);
+        formData.append("num_rows", numRows);
+
+        // Here, integrate with your backend to handle formData
+        console.log("Data submitted:", formData);
+        setResponse("Simulated Response Data");
+        setCurrentStep("result");
+      } else {
+        throw new Error("Transaction signing failed");
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error during the process:", error);
       setCurrentStep("form");
     }
   };
