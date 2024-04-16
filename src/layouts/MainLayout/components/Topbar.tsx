@@ -55,7 +55,7 @@ const TopBar: FC = () => {
           {/* Logo Section */}
           <h1 className="text-3xl font-bold">
             <Link href="/">
-              <div className="relative w-[134px] h-[53px]">
+              <div className="relative w-[83px] h-[33px] sm:w-[134px] sm:h-[53px]">
                 <Image
                   src="/images/sai-logo.svg"
                   layout="fill"
@@ -89,6 +89,7 @@ const TopBar: FC = () => {
             onClick={toggleThemeHandler}
           />
         </div>
+        
       </div>
     </header>
   );

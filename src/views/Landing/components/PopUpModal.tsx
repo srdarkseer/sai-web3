@@ -119,12 +119,13 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
             <div className="h-full flex flex-col justify-center">
               <DialogHeader>
                 <DialogTitle>
-                  <div className="absolute top-10">Create Data</div>
+                  <div className="absolute top-4 left-2 sm:top-10">Create Data</div>
                 </DialogTitle>
               </DialogHeader>
-              <div className="px-6 pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-10">
-                <div className="grid grid-cols-12 gap-10">
-                  <div className="col-span-7 space-y-6 ">
+
+              <div className="mx-2 mb-4 sm:mb-0 sm:mx-0 px-2 sm:px-6 pb-4 sm:pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-16 sm:mt-10">
+                <div className="grid grid-cols-12 gap-8 sm:gap-10">
+                  <div className="col-span-12 sm:col-span-7 space-y-6 ">
                     <div className="space-y-2">
                       <Label>Data Type</Label>
 
@@ -173,7 +174,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                 </div> */}
                   </div>
 
-                  <div className="col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-16">
+                  <div className="col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
                     <p className="text-sm text-white">
                       Data type is the type of data <br /> -ex. Regular
                     </p>
