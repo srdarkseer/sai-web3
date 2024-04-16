@@ -64,6 +64,10 @@ const config = {
           DEFAULT: "#162D25",
           foreground: "hsl(var(--hunterGreen-foreground))",
         },
+        olive: {
+          DEFAULT: "#0E1A16",
+          foreground: "hsl(var(--olive-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
