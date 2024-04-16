@@ -190,7 +190,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
             <div className="h-full flex flex-col justify-center">
               <DialogHeader>
                 <DialogTitle>
-                  <div className="absolute top-4 left-2 sm:top-10">Create Data</div>
+                  <div className="absolute top-4 left-2 sm:top-10">
+                    Create Data
+                  </div>
                 </DialogTitle>
               </DialogHeader>
 
@@ -213,12 +215,20 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                           </SelectGroup>
                         </SelectContent>
                       </Select>
+
+                      <p className=" p-2 block sm:hidden text-sm text-white">
+                        Data type is the type of data -ex. Regular
+                      </p>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="file">CSV file</Label>
 
                       <Input ref={fileInputRef} id="file" type="file" />
+
+                      <p className=" p-2 block sm:hidden text-sm text-white">
+                        CSV file - ex. Name, ID
+                      </p>
                     </div>
 
                     <div className="space-y-2">
@@ -231,6 +241,10 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                         value={numRows}
                         onChange={(e) => setNumRows(e.target.value)}
                       />
+
+                      <p className=" p-2 block sm:hidden text-sm text-white">
+                        Number of rows - how many rows in output field?
+                      </p>
                     </div>
 
                     {/* <div>
@@ -245,7 +259,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                 </div> */}
                   </div>
 
-                  <div className="col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
+                  <div className="hidden sm:block col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
                     <p className="text-sm text-white">
                       Data type is the type of data <br /> -ex. Regular
                     </p>
