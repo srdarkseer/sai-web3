@@ -122,11 +122,12 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   <div className="absolute top-10">Create Data</div>
                 </DialogTitle>
               </DialogHeader>
-              <div className="space-y-6 px-6 pb-12 pt-8 bg-hunterGreen rounded-lg mt-10">
-                <div className="space-y-2">
-                  <Label>Data Type</Label>
-                  <div className="grid grid-cols-12 gap-3">
-                    <div className="col-span-8">
+              <div className="px-6 pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-10">
+                <div className="grid grid-cols-12 gap-10">
+                  <div className="col-span-7 space-y-6 ">
+                    <div className="space-y-2">
+                      <Label>Data Type</Label>
+
                       <Select onValueChange={setDataType}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Data Type" />
@@ -142,63 +143,25 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                       </Select>
                     </div>
 
-                    <div className="col-span-4">
-                      <p className="text-white text-sm">
-                        Data type is the type of data <br /> -ex. Regular
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="file">CSV file</Label>
 
-                <div className="space-y-2">
-                  <Label htmlFor="file">CSV file</Label>
-
-                  <div className="grid grid-cols-12 gap-3">
-                    <div className="col-span-8">
                       <Input ref={fileInputRef} id="file" type="file" />
                     </div>
 
-                    <div className="col-span-4">
-                      <p className="text-white text-sm">
-                        CSV file - ex. Name, ID
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="num_rows">Number of Rows</Label>
 
-                <div className="space-y-2">
-                  <Label htmlFor="num_rows">Number of Rows</Label>
-                  <div className="grid grid-cols-12 gap-3">
-                    <div className="col-span-8">
                       <Input
                         id="num_rows"
                         type="number"
-                        placeholder="Enter number of rows"
+                        placeholder="How many rows in output file?"
                         value={numRows}
                         onChange={(e) => setNumRows(e.target.value)}
                       />
                     </div>
 
-                    <div className="col-span-4">
-                      <p className="text-white text-sm">
-                        Number of rows - how many rows in output field?
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pt-20">
-                    <Button
-                      onClick={handleSubmit}
-                      variant="default"
-                      type="button"
-                      size="lg"
-                      className="w-60 px-44"
-                    >
-                      Generate
-                    </Button>
-                  </div>
-                </div>
-                {/* <div>
+                    {/* <div>
                   <Label htmlFor="batch_size">Batch Size</Label>
                   <Input
                     id="batch_size"
@@ -208,6 +171,34 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                     onChange={handleBatchSizeChange}
                   />
                 </div> */}
+                  </div>
+
+                  <div className="col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-16">
+                    <p className="text-sm text-white">
+                      Data type is the type of data <br /> -ex. Regular
+                    </p>
+
+                    <p className="text-sm text-white">
+                      CSV file - ex. Name, ID
+                    </p>
+
+                    <p className="text-sm text-white">
+                      Number of rows - how many rows in output field?
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-10">
+                  <Button
+                    onClick={handleSubmit}
+                    variant="default"
+                    type="button"
+                    size="lg"
+                    className="w-60 px-44"
+                  >
+                    Generate
+                  </Button>
+                </div>
               </div>
               {/* <DialogFooter className="pt-20">
                 
