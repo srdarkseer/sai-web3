@@ -13,8 +13,8 @@ jobs:
           cd ~/sai-web3
           export PATH=/usr/local/bin:$PATH
           git pull
-          docker system prune -f
           docker-compose down
+          docker system prune -f
           docker-compose up --build -d
           docker system prune -f
 
