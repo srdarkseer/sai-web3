@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,6 +21,9 @@ import {
 } from "@/components/ui/select";
 
 import { generateData } from "@/store/api";
+
+import { ethers, providers } from "ethers";
+import { useConnectWallet } from "@web3-onboard/react";
 
 const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   // State for managing the multi-step process
@@ -93,6 +95,125 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
 
   const resetForm = () => {
     setCurrentStep("form");
+  };
+
+  const [{ wallet }] = useConnectWallet();
+
+  // create an ethers provider
+  let ethersProvider: providers.Web3Provider | null = null;
+
+  if (wallet) {
+    ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
+  }
+
+  const contractAddress = "0xe722C6833a0BF4B874C18C3f10cB54fD58A4180A";
+  const contractABI = [
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "_name",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "_age",
+          type: "uint256",
+        },
+      ],
+      name: "createPerson",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "_personAddress",
+          type: "address",
+        },
+      ],
+      name: "getPerson",
+      outputs: [
+        {
+          internalType: "string",
+          name: "name",
+          type: "string",
+        },
+        {
+          internalType: "uint256",
+          name: "age",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "personAddress",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "string",
+          name: "name",
+          type: "string",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "age",
+          type: "uint256",
+        },
+      ],
+      name: "PersonCreated",
+      type: "event",
+    },
+  ];
+
+  let contract: ethers.Contract | null = null;
+  if (ethersProvider) {
+    contract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      ethersProvider
+    );
+  }
+
+  const sendTransaction = async () => {
+    try {
+      // Get the signer from the connected wallet
+      const signer = ethersProvider?.getSigner();
+
+      // Call a contract method
+      if (contract && signer) {
+        const tx = await contract.connect(signer).createPerson("John", 30);
+        await tx.wait(); // Wait for the transaction to be mined
+        console.log("Transaction successful:", tx.hash);
+        return tx; // Resolve the promise with the transaction
+      } else {
+        console.error("Contract or signer is not available");
+        throw new Error("Contract or signer is not available");
+      }
+    } catch (error) {
+      console.error("Error sending transaction:", error);
+      throw error; // Reject the promise with the error
+    }
+  };
+
+  const handleTransactionAndDataGeneration = async () => {
+    try {
+      await sendTransaction();
+      await handleSubmit();
+    } catch (error) {
+      console.error("Error during transaction or data generation:", error);
+    }
   };
 
   return (
@@ -205,7 +326,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
 
                 <div className="pt-10">
                   <Button
-                    onClick={handleSubmit}
+                    onClick={handleTransactionAndDataGeneration}
                     variant="default"
                     type="button"
                     size="lg"
@@ -215,9 +336,6 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   </Button>
                 </div>
               </div>
-              {/* <DialogFooter className="pt-20">
-                
-              </DialogFooter> */}
             </div>
           )}
 

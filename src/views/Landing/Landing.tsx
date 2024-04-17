@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
+import PopUpModal from "./components/PopUpModal";
 
 import { useConnectWallet } from "@web3-onboard/react";
-import { ethers } from "ethers";
-import PopUpModal from "./components/PopUpModal";
 
 const Landing = () => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
@@ -13,12 +12,7 @@ const Landing = () => {
   const [attemptedConnectionFromSection, setAttemptedConnectionFromSection] =
     useState(false);
 
-  // create an ethers provider
-  let ethersProvider;
-
-  if (wallet) {
-    ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
-  }
+ 
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -34,6 +28,8 @@ const Landing = () => {
     };
   }, [wallet, attemptedConnectionFromSection]);
 
+
+
   return (
     <div className="h-[90vh] container flex items-center justify-center">
       <div className="grid grid-cols-12 sm:h-[526px] gap-8 sm:gap-4">
@@ -47,6 +43,14 @@ const Landing = () => {
             {wallet ? (
               <div className="w-full">
                 <PopUpModal isOpen={isModalOpen} />
+                {/* <Button
+                  variant="default"
+                  size="lg"
+                  className="w-full"
+                  onClick={sendTransaction}
+                >
+                  Send Transaction
+                </Button> */}
               </div>
             ) : (
               <Button
