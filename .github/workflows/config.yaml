@@ -1,4 +1,4 @@
-name: Push to ECR
+name: Push to EC2
 on:
   push:
     branches:
