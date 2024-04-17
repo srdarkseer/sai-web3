@@ -89,7 +89,6 @@ const TopBar: FC = () => {
             onClick={toggleThemeHandler}
           />
         </div>
-        
       </div>
     </header>
   );
