@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
+import { ToastProvider } from "@/components/CustomToast";
+
 import { MyThemeContextProvider } from "../store/myThemeContext";
 import setupWallets from "@/lib/setupWallets";
 
@@ -32,9 +34,11 @@ const web3Onboard = init({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <MyThemeContextProvider>
-      <Web3OnboardProvider web3Onboard={web3Onboard}>
-        <Component {...pageProps} />
-      </Web3OnboardProvider>
+      <ToastProvider>
+        <Web3OnboardProvider web3Onboard={web3Onboard}>
+          <Component {...pageProps} />
+        </Web3OnboardProvider>
+      </ToastProvider>
     </MyThemeContextProvider>
   );
 }

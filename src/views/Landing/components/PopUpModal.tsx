@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/CustomToast";
 
 import { generateData } from "@/store/api";
 
@@ -26,6 +27,8 @@ import { ethers, providers } from "ethers";
 import { useConnectWallet } from "@web3-onboard/react";
 
 const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
+  const { addToast } = useToast();
+
   // State for managing the multi-step process
   const [currentStep, setCurrentStep] = useState("form"); // "form", "loading", "result"
   const [response, setResponse] = useState(null);
@@ -54,23 +57,46 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     }
   }, [isOpen]);
 
+  const validateForm = () => {
+    let errors = [];
+    if (!dataType) errors.push("data type");
+    if (!numRows) errors.push("number of rows");
+    if (
+      !fileInputRef.current ||
+      !fileInputRef.current.files ||
+      fileInputRef.current.files.length === 0
+    ) {
+      errors.push("CSV file");
+    }
+
+    if (errors.length > 0) {
+      const errorMessage = `Please provide the following fields: "${errors.join(
+        ", "
+      )}"`;
+      console.log(errorMessage);
+      addToast(errorMessage, "error");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async () => {
     setCurrentStep("loading");
     const formData = new FormData();
-    if (fileInputRef.current?.files?.[0]) {
-      formData.append("file", fileInputRef.current.files[0]);
-    }
     formData.append("data_type", dataType);
     formData.append("num_rows", numRows);
     formData.append("batch_size", batchSize);
+    if (fileInputRef.current?.files?.[0]) {
+      formData.append("file", fileInputRef.current.files[0]);
+    }
 
     try {
       const responseData = await generateData(formData);
-      console.log(responseData);
       setResponse(responseData);
       setCurrentStep("result");
     } catch (error) {
       console.error(error);
+      addToast("Error generating data", "error");
       setCurrentStep("form");
     }
   };
@@ -78,6 +104,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const downloadCSV = () => {
     if (!response) {
       console.error("No CSV data available");
+      addToast("No CSV data available", "error");
       return;
     }
 
@@ -196,23 +223,30 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         const tx = await contract.connect(signer).createPerson("John", 30);
         await tx.wait(); // Wait for the transaction to be mined
         console.log("Transaction successful:", tx.hash);
+        addToast("Transaction successful", "success");
         return tx; // Resolve the promise with the transaction
       } else {
         console.error("Contract or signer is not available");
+        addToast("Contract or signer is not available", "error");
         throw new Error("Contract or signer is not available");
       }
     } catch (error) {
       console.error("Error sending transaction:", error);
+      addToast("Error sending transaction", "error");
       throw error; // Reject the promise with the error
     }
   };
 
   const handleTransactionAndDataGeneration = async () => {
+    if (!validateForm()) return;
+
     try {
       await sendTransaction();
+      addToast("Transaction successful", "success");
       await handleSubmit();
     } catch (error) {
       console.error("Error during transaction or data generation:", error);
+      addToast("Error during transaction or data generation", "error");
     }
   };
 
