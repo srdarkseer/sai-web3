@@ -274,7 +274,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
             <div className="h-full flex flex-col justify-center">
               <DialogHeader>
                 <DialogTitle>
-                  <div className="absolute top-4 left-2 sm:top-10">
+                  <div className="absolute top-4 left-4 sm:left-20 sm:top-10">
                     Create Data
                   </div>
                 </DialogTitle>
