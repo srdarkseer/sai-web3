@@ -133,8 +133,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
   }
 
-  const contractAddress = "0xe722C6833a0BF4B874C18C3f10cB54fD58A4180A";
+  const contractAddress = `${process.env.SAI_CONTRACT_ADDRESS}`; // SAI's Contract Address
   const contractABI = [
+    // Dummy Contract ABI
     {
       inputs: [
         {
