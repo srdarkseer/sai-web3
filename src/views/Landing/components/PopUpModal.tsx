@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/CustomToast";
 
-import { saiContractABI, dummyABI } from "@/lib/contractABI";
+import { saiContractABI } from "@/lib/contractABI";
 
 import { generateData } from "@/store/api";
 
@@ -44,13 +44,6 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const [batchSize, setBatchSize] = useState("200");
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleBatchSizeChange = (e: any) => {
-    const newValue = parseInt(e.target.value, 10);
-    if (!isNaN(newValue)) {
-      setBatchSize(newValue.toString());
-    }
-  };
 
   // Attempt to open the dialog if isOpen changes to true
   useEffect(() => {
@@ -139,20 +132,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const contractAddress = `${process.env.SAI_CONTRACT_ADDRESS}`;
 
   // SAI's Contract ABI
-  const contractABI = dummyABI;
-
-  // Check if the ABI contains the 'createPerson' function
-  useEffect(() => {
-    if (contractABI && Array.isArray(contractABI)) {
-      const hasCreatePerson = contractABI.some(
-        (item) => item.name === "createPerson"
-      );
-      console.log("Does ABI contain 'createPerson'? ", hasCreatePerson);
-      if (!hasCreatePerson) {
-        addToast("createPerson function not found in ABI", "error");
-      }
-    }
-  }, [contractABI, addToast]);
+  const contractABI = saiContractABI;
 
   let contract: ethers.Contract | null = null;
   if (ethersProvider) {
@@ -165,30 +145,28 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
 
   const sendTransaction = async () => {
     try {
-      // Get the signer from the connected wallet
       const signer = ethersProvider?.getSigner();
+      const gasLimit = 300000; // You may need to adjust this based on the contract's requirements
 
-      // Define a manual gas limit for the transaction
-      const gasLimit = 300000;
+      const recipientAddress = `${process.env.SAI_CONTRACT_ADDRESS}`; // Address of the recipient
+      const decimals = 18; // Number of decimals the $AI token uses
+      const amountToSend = ethers.utils.parseUnits("1.0", decimals); // '1.0' represents 1 $AI token
 
-      // Call a contract method
       if (contract && signer) {
         const tx = await contract
           .connect(signer)
-          .createPerson("John", 30, { gasLimit: gasLimit });
+          .transfer(recipientAddress, amountToSend, { gasLimit: gasLimit });
         await tx.wait(); // Wait for the transaction to be mined
         console.log("Transaction successful:", tx.hash);
         addToast("Transaction successful", "success");
         return tx; // Resolve the promise with the transaction
       } else {
-        console.error("Contract or signer is not available");
-        addToast("Contract or signer is not available", "error");
         throw new Error("Contract or signer is not available");
       }
     } catch (error) {
       console.error("Error sending transaction:", error);
       addToast("Error sending transaction", "error");
-      throw error; // Reject the promise with the error
+      throw error;
     }
   };
 
