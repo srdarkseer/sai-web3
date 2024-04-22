@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/CustomToast";
 
+import { saiContractABI, dummyABI } from "@/lib/contractABI";
+
 import { generateData } from "@/store/api";
 
 import { ethers, providers } from "ethers";
@@ -137,223 +139,20 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const contractAddress = `${process.env.SAI_CONTRACT_ADDRESS}`;
 
   // SAI's Contract ABI
-  const contractABI = [
-    { inputs: [], stateMutability: "nonpayable", type: "constructor" },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "Approval",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "previousOwner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "OwnershipTransferred",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        { indexed: true, internalType: "address", name: "to", type: "address" },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      inputs: [{ internalType: "address", name: "wallet", type: "address" }],
-      name: "addExcludedWallet",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "owner", type: "address" },
-        { internalType: "address", name: "spender", type: "address" },
-      ],
-      name: "allowance",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "spender", type: "address" },
-        { internalType: "uint256", name: "amount", type: "uint256" },
-      ],
-      name: "approve",
-      outputs: [{ internalType: "bool", name: "", type: "bool" }],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "account", type: "address" }],
-      name: "balanceOf",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "buyTax",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "uint256", name: "newBuyTax", type: "uint256" },
-        { internalType: "uint256", name: "newSellTax", type: "uint256" },
-      ],
-      name: "changeTax",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "decimals",
-      outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "maxTxAmount",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "name",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "openTrading",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "owner",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "removeLimits",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "renounceOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "sellTax",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "symbol",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "totalSupply",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "recipient", type: "address" },
-        { internalType: "uint256", name: "amount", type: "uint256" },
-      ],
-      name: "transfer",
-      outputs: [{ internalType: "bool", name: "", type: "bool" }],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "sender", type: "address" },
-        { internalType: "address", name: "recipient", type: "address" },
-        { internalType: "uint256", name: "amount", type: "uint256" },
-      ],
-      name: "transferFrom",
-      outputs: [{ internalType: "bool", name: "", type: "bool" }],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-      name: "transferOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    { stateMutability: "payable", type: "receive" },
-  ];
+  const contractABI = dummyABI;
+
+  // Check if the ABI contains the 'createPerson' function
+  useEffect(() => {
+    if (contractABI && Array.isArray(contractABI)) {
+      const hasCreatePerson = contractABI.some(
+        (item) => item.name === "createPerson"
+      );
+      console.log("Does ABI contain 'createPerson'? ", hasCreatePerson);
+      if (!hasCreatePerson) {
+        addToast("createPerson function not found in ABI", "error");
+      }
+    }
+  }, [contractABI]);
 
   let contract: ethers.Contract | null = null;
   if (ethersProvider) {
@@ -369,9 +168,14 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
       // Get the signer from the connected wallet
       const signer = ethersProvider?.getSigner();
 
+      // Define a manual gas limit for the transaction
+      const gasLimit = 300000;
+
       // Call a contract method
       if (contract && signer) {
-        const tx = await contract.connect(signer).createPerson("John", 30);
+        const tx = await contract
+          .connect(signer)
+          .createPerson("John", 30, { gasLimit: gasLimit });
         await tx.wait(); // Wait for the transaction to be mined
         console.log("Transaction successful:", tx.hash);
         addToast("Transaction successful", "success");
