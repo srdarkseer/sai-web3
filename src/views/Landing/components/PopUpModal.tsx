@@ -152,7 +152,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         addToast("createPerson function not found in ABI", "error");
       }
     }
-  }, [contractABI]);
+  }, [contractABI, addToast]);
 
   let contract: ethers.Contract | null = null;
   if (ethersProvider) {
