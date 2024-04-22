@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/CustomToast";
 
+import { saiContractABI, dummyABI } from "@/lib/contractABI";
+
 import { generateData } from "@/store/api";
 
 import { ethers, providers } from "ethers";
@@ -133,77 +135,24 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     ethersProvider = new ethers.providers.Web3Provider(wallet.provider, "any");
   }
 
-  const contractAddress = `${process.env.SAI_CONTRACT_ADDRESS}`; // SAI's Contract Address
-  const contractABI = [
-    // Dummy Contract ABI
-    {
-      inputs: [
-        {
-          internalType: "string",
-          name: "_name",
-          type: "string",
-        },
-        {
-          internalType: "uint256",
-          name: "_age",
-          type: "uint256",
-        },
-      ],
-      name: "createPerson",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "_personAddress",
-          type: "address",
-        },
-      ],
-      name: "getPerson",
-      outputs: [
-        {
-          internalType: "string",
-          name: "name",
-          type: "string",
-        },
-        {
-          internalType: "uint256",
-          name: "age",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "personAddress",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "string",
-          name: "name",
-          type: "string",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "age",
-          type: "uint256",
-        },
-      ],
-      name: "PersonCreated",
-      type: "event",
-    },
-  ];
+  // SAI's Contract Address
+  const contractAddress = `${process.env.SAI_CONTRACT_ADDRESS}`;
+
+  // SAI's Contract ABI
+  const contractABI = dummyABI;
+
+  // Check if the ABI contains the 'createPerson' function
+  useEffect(() => {
+    if (contractABI && Array.isArray(contractABI)) {
+      const hasCreatePerson = contractABI.some(
+        (item) => item.name === "createPerson"
+      );
+      console.log("Does ABI contain 'createPerson'? ", hasCreatePerson);
+      if (!hasCreatePerson) {
+        addToast("createPerson function not found in ABI", "error");
+      }
+    }
+  }, [contractABI]);
 
   let contract: ethers.Contract | null = null;
   if (ethersProvider) {
@@ -219,9 +168,14 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
       // Get the signer from the connected wallet
       const signer = ethersProvider?.getSigner();
 
+      // Define a manual gas limit for the transaction
+      const gasLimit = 300000;
+
       // Call a contract method
       if (contract && signer) {
-        const tx = await contract.connect(signer).createPerson("John", 30);
+        const tx = await contract
+          .connect(signer)
+          .createPerson("John", 30, { gasLimit: gasLimit });
         await tx.wait(); // Wait for the transaction to be mined
         console.log("Transaction successful:", tx.hash);
         addToast("Transaction successful", "success");
