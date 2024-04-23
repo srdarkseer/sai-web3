@@ -150,7 +150,10 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
 
       const recipientAddress = `${process.env.SAI_CONTRACT_ADDRESS}`; // Address of the recipient
       const decimals = 18; // Number of decimals the $AI token uses
-      const amountToSend = ethers.utils.parseUnits("1.0", decimals); // '1.0' represents 1 $AI token
+      const amountToSend = ethers.utils.parseUnits(
+        (parseInt(numRows) / 10).toString(),
+        decimals
+      ); // '1.0' represents 1 $AI token
 
       if (contract && signer) {
         const tx = await contract
