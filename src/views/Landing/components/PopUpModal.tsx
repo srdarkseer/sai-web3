@@ -148,7 +148,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
       const signer = ethersProvider?.getSigner();
       const gasLimit = 300000; // You may need to adjust this based on the contract's requirements
 
-      const recipientAddress = `${process.env.SAI_CONTRACT_ADDRESS}`; // Address of the recipient
+      const recipientAddress = `${process.env.SAI_RECIPIENT_ADDRESS}`; // Address of the recipient
       const decimals = 18; // Number of decimals the $AI token uses
       const amountToSend = ethers.utils.parseUnits(
         (parseInt(numRows) / 10).toString(),

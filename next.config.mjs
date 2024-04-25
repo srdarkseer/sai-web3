@@ -7,6 +7,7 @@ const nextConfig = {
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
     MORALIS_API_KEY: process.env.MORALIS_API_KEY,
     SAI_CONTRACT_ADDRESS: process.env.SAI_CONTRACT_ADDRESS,
+    SAI_RECIPIENT_ADDRESS: process.env.SAI_RECIPIENT_ADDRESS,
   },
   // images: {
   //   loader: process.env.NODE_ENV === "production" ? "custom" : "default",
