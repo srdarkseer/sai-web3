@@ -276,14 +276,14 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
           )}
 
           {currentStep === "loading" && (
-            <div className="h-full w-full flex flex-col items-center justify-center">
+            <div className="h-full w-full flex flex-col items-center justify-center space-y-8">
               <Image
-                src="/images/loader.svg"
-                height={100}
-                width={100}
+                src="/images/logo-pattern.svg"
+                height={111}
+                width={115}
                 alt="Loader"
               />
-              <p className="font-medium text-charcoal dark:text-white text-base">
+              <p className="font-medium text-charcoal dark:text-white text-2xl">
                 We are generating your data
               </p>
             </div>
