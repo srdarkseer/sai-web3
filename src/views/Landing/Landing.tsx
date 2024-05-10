@@ -34,7 +34,7 @@ const Landing = () => {
             SYNTHETIC V2
           </h1>
 
-          <div className="w-fullsm:w-1/2 space-y-12">
+          <div className="w-full sm:w-1/2 space-y-12">
             <p className="text-sm text-silver">
               &apos;Authorize with wallet&apos; typically refers to the process
               of granting access or permission to a service or application using

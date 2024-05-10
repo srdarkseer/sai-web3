@@ -276,7 +276,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
           )}
 
           {currentStep === "loading" && (
-            <div className="h-full w-full flex flex-col items-center justify-center space-y-8">
+            <div className="h-full w-full flex flex-col items-center justify-center space-y-12">
               <Image
                 src="/images/logo-pattern.svg"
                 height={111}
