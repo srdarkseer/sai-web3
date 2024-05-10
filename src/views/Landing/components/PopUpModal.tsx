@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -177,7 +177,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     if (!validateForm()) return;
 
     try {
-      await sendTransaction();
+      // await sendTransaction();
       addToast("Transaction successful", "success");
       await handleSubmit();
     } catch (error) {
@@ -205,54 +205,47 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
             Create Data
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent
+          className={
+            currentStep === "form"
+              ? "bg-black border border-white"
+              : currentStep === "loading"
+              ? "bg-black"
+              : currentStep === "result"
+              ? "bg-black"
+              : ""
+          }
+        >
           {currentStep === "form" && (
             <div className="h-full flex flex-col justify-center">
               <DialogHeader>
                 <DialogTitle>
-                  <div className="absolute top-4 left-4 sm:left-20 sm:top-10">
+                  <p className="mt-10 text-[40px] text-white font-semibold">
                     Create Data
-                  </div>
+                  </p>
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="mx-2 mb-4 sm:mb-0 sm:mx-0 px-2 sm:px-6 pb-4 sm:pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-16 sm:mt-10">
+              <div className="mt-6">
                 <div className="grid grid-cols-12 gap-8 sm:gap-10">
-                  <div className="col-span-12 sm:col-span-7 space-y-6 ">
-                    {/* <div className="space-y-2">
-                      <Label>Data Type</Label>
-
-                      <Select onValueChange={setDataType}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Data Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="regular">Regular</SelectItem>
-                            <SelectItem value="timeseries">
-                              Timeseries
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        Data type is the type of data -ex. Regular
-                      </p>
-                    </div> */}
-
+                  <div className="col-span-12 sm:col-span-6 space-y-6 ">
                     <div className="space-y-2">
-                      <Label htmlFor="file">CSV file</Label>
+                      <div>
+                        <p className="text-lg text-white font-semibold">
+                          CSV file
+                        </p>
+                        <p className="text-silver font-light text-sm">
+                          ex: Name, ID
+                        </p>
+                      </div>
 
                       <Input ref={fileInputRef} id="file" type="file" />
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        CSV file - ex. Name, ID
-                      </p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="num_rows">Number of Rows</Label>
+                      <p className="text-lg text-white font-semibold">
+                        Number of Rows
+                      </p>
 
                       <Input
                         id="num_rows"
@@ -261,50 +254,23 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                         value={numRows}
                         onChange={(e) => setNumRows(e.target.value)}
                       />
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        Number of rows - how many rows in output field?
-                      </p>
                     </div>
 
-                    {/* <div>
-                  <Label htmlFor="batch_size">Batch Size</Label>
-                  <Input
-                    id="batch_size"
-                    type="number"
-                    defaultValue={batchSize}
-                    placeholder="Enter batch size"
-                    onChange={handleBatchSizeChange}
-                  />
-                </div> */}
-                  </div>
-
-                  <div className="hidden sm:block col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
-                    {/* <p className="text-sm text-white">
-                      Data type is the type of data <br /> -ex. Regular
-                    </p> */}
-
-                    <p className="text-sm text-white">
-                      CSV file - ex. Name, ID
-                    </p>
-
-                    <p className="text-sm text-white">
-                      Number of rows - how many rows in output field?
-                    </p>
+                    <div className="pt-2">
+                      <Button
+                        onClick={handleTransactionAndDataGeneration}
+                        variant="gradient1"
+                        type="button"
+                        size="lg"
+                        className="w-full rounded-md"
+                      >
+                        Generate
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="pt-10">
-                  <Button
-                    onClick={handleTransactionAndDataGeneration}
-                    variant="default"
-                    type="button"
-                    size="lg"
-                    className="w-60 px-44"
-                  >
-                    Generate
-                  </Button>
-                </div>
+                <div className="pt-10"></div>
               </div>
             </div>
           )}
