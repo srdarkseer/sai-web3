@@ -46,7 +46,7 @@ const TopBar: FC = () => {
 
   return (
     <header
-      className={`fixed z-20 w-full transition-all duration-300 bg-black ${
+      className={`fixed z-20 w-full transition-all duration-300  ${
         isScrolled ? "shadow-md py-3.5" : "py-10"
       }`}
     >

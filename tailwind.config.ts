@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -25,7 +26,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#235243",
+          DEFAULT: "rgba(87, 233, 163, 1)",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -44,20 +45,20 @@ const config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        forestGreen: {
-          DEFAULT: "#0F231D",
+        gray: {
+          DEFAULT: "#363636",
           foreground: "hsl(var(--forestGreen-foreground))",
         },
-        charcoal: {
-          DEFAULT: "#212121",
+        silver: {
+          DEFAULT: "#696969",
           foreground: "hsl(var(--charcoal-foreground))",
         },
-        darkGreen: {
-          DEFAULT: "#336656",
+        slate: {
+          DEFAULT: "#171717",
           foreground: "hsl(var(--forestGreen-foreground))",
         },
-        pine: {
-          DEFAULT: "#19372F",
+        white: {
+          DEFAULT: "#EEEEEE",
           foreground: "hsl(var(--pine-foreground))",
         },
         hunterGreen: {
@@ -98,9 +99,36 @@ const config = {
         fadeIn: "fadeIn 0.5s ease-out",
         fadeOut: "fadeOut 0.5s ease-out",
       },
+      boxShadow: {
+        "custom-green": "0px 0px 28.4px 0px rgba(87, 233, 163, 0.16)",
+      },
+      backgroundImage: {
+        "gradient-green":
+          "linear-gradient(91.45deg, #57E9A3 1.23%, rgba(87, 233, 163, 0) 147.68%)",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"), // Your existing animation plugin
+    plugin(function ({ addUtilities }) {
+      addUtilities(
+        {
+          ".gradient-text": {
+            backgroundImage:
+              "linear-gradient(45deg, rgba(87, 233, 163, 1) -10%, #171717 30%, #00523D 60%, #171717 80%)",
+            backgroundClip: "text",
+            webkitBackgroundClip: "text",
+            color: "transparent",
+            webkitTextFillColor: "transparent",
+          },
+        },
+        {
+          respectPrefix: false,
+          respectImportant: false,
+        }
+      ); // This second argument adds these styles to responsive and hover variants if needed
+    }),
+  ],
 } satisfies Config;
 
 export default config;

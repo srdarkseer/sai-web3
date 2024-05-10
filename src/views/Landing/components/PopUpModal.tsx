@@ -39,7 +39,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // State for form inputs
-  const [dataType, setDataType] = useState("");
+  const [dataType, setDataType] = useState("regular");
   const [numRows, setNumRows] = useState("");
   const [batchSize, setBatchSize] = useState("200");
 
@@ -198,9 +198,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         <DialogTrigger asChild>
           <Button
             ref={openButtonRef}
-            variant="default"
+            variant="gradient1"
             size="lg"
-            className="w-full"
+            className="w-1/2 text-xl font-normal"
           >
             Create Data
           </Button>
@@ -219,7 +219,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
               <div className="mx-2 mb-4 sm:mb-0 sm:mx-0 px-2 sm:px-6 pb-4 sm:pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-16 sm:mt-10">
                 <div className="grid grid-cols-12 gap-8 sm:gap-10">
                   <div className="col-span-12 sm:col-span-7 space-y-6 ">
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                       <Label>Data Type</Label>
 
                       <Select onValueChange={setDataType}>
@@ -239,7 +239,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                       <p className=" p-2 block sm:hidden text-sm text-white">
                         Data type is the type of data -ex. Regular
                       </p>
-                    </div>
+                    </div> */}
 
                     <div className="space-y-2">
                       <Label htmlFor="file">CSV file</Label>
@@ -280,9 +280,9 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                   </div>
 
                   <div className="hidden sm:block col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
-                    <p className="text-sm text-white">
+                    {/* <p className="text-sm text-white">
                       Data type is the type of data <br /> -ex. Regular
-                    </p>
+                    </p> */}
 
                     <p className="text-sm text-white">
                       CSV file - ex. Name, ID
