@@ -47,7 +47,7 @@ const TopBar: FC = () => {
   return (
     <header
       className={`fixed z-20 w-full transition-all duration-300  ${
-        isScrolled ? "shadow-md py-3.5" : "py-10"
+        isScrolled ? "shadow-md py-10" : "py-10"
       }`}
     >
       <div className="container flex items-center justify-between">
