@@ -283,6 +283,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                 width={115}
                 alt="Loader"
               />
+
               <p className="font-medium text-charcoal dark:text-white text-2xl">
                 We are generating your data
               </p>
@@ -290,20 +291,30 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
           )}
 
           {currentStep === "result" && (
-            <div className="h-full w-full flex flex-col gap-6 items-center justify-center">
-              <Image
-                src="/images/download.svg"
-                height={180}
-                width={150}
-                alt="Loader"
-              />
+            <div className="h-full w-full flex flex-col gap-12 items-center justify-center">
+              <div className="max-w-lg text-center space-y-8">
+                <p className="text-white text-4xl font-semibold">
+                  Your data has been successfully generated!
+                </p>
+
+                <p className="text-white text-base font-medium">
+                  Download the CSV file by clicking on the button
+                </p>
+              </div>
+
               <Button
-                variant="default"
+                variant="gradient1"
                 type="button"
-                size="default"
-                className="w-full"
+                size="lg"
+                className="flex items-center gap-2 text-base w-auto px-4"
                 onClick={downloadCSV}
               >
+                <Image
+                  src="/images/download-icon.svg"
+                  height={30}
+                  width={30}
+                  alt="download"
+                />
                 Download CSV file
               </Button>
             </div>
