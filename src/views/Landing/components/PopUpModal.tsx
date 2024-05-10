@@ -208,11 +208,11 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         <DialogContent
           className={
             currentStep === "form"
-              ? "bg-black border border-white"
+              ? "bg-black "
               : currentStep === "loading"
               ? "bg-black"
               : currentStep === "result"
-              ? "bg-black"
+              ? "bg-[url('/images/download-bg.png')] bg-cover bg-center bg-no-repeat"
               : ""
           }
         >
@@ -268,6 +268,8 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                       </Button>
                     </div>
                   </div>
+
+                  <div className="col-span-6 bg-[url('/images/ai-bg.png')] bg-cover bg-center bg-no-repeat" />
                 </div>
 
                 <div className="pt-10"></div>
@@ -306,7 +308,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                 variant="gradient1"
                 type="button"
                 size="lg"
-                className="flex items-center gap-2 text-base w-auto px-4"
+                className="flex items-center gap-2 text-base w-auto px-6"
                 onClick={downloadCSV}
               >
                 <Image
