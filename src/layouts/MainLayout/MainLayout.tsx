@@ -9,9 +9,9 @@ function MainLayout({ children }: any) {
       </div>
 
       <main className="pt-20">
-        <div className="block sm:hidden">
+        {/* <div className="block sm:hidden">
           <Banner />
-        </div>
+        </div> */}
         {children}
       </main>
     </>

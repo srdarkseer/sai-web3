@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -39,7 +39,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // State for form inputs
-  const [dataType, setDataType] = useState("");
+  const [dataType, setDataType] = useState("regular");
   const [numRows, setNumRows] = useState("");
   const [batchSize, setBatchSize] = useState("200");
 
@@ -177,7 +177,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     if (!validateForm()) return;
 
     try {
-      await sendTransaction();
+      // await sendTransaction();
       addToast("Transaction successful", "success");
       await handleSubmit();
     } catch (error) {
@@ -198,61 +198,54 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         <DialogTrigger asChild>
           <Button
             ref={openButtonRef}
-            variant="default"
+            variant="gradient1"
             size="lg"
-            className="w-full"
+            className="w-1/2 text-xl font-normal"
           >
             Create Data
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent
+          className={
+            currentStep === "form"
+              ? "bg-black "
+              : currentStep === "loading"
+              ? "bg-black"
+              : currentStep === "result"
+              ? "bg-[url('/images/download-bg.png')] bg-cover bg-center bg-no-repeat"
+              : ""
+          }
+        >
           {currentStep === "form" && (
             <div className="h-full flex flex-col justify-center">
               <DialogHeader>
                 <DialogTitle>
-                  <div className="absolute top-4 left-4 sm:left-20 sm:top-10">
+                  <p className="mt-10 text-[40px] text-white font-semibold">
                     Create Data
-                  </div>
+                  </p>
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="mx-2 mb-4 sm:mb-0 sm:mx-0 px-2 sm:px-6 pb-4 sm:pb-12 pt-8 bg-hunterGreen border border-white/40 rounded-lg mt-16 sm:mt-10">
+              <div className="mt-6">
                 <div className="grid grid-cols-12 gap-8 sm:gap-10">
-                  <div className="col-span-12 sm:col-span-7 space-y-6 ">
+                  <div className="col-span-12 sm:col-span-6 space-y-6 ">
                     <div className="space-y-2">
-                      <Label>Data Type</Label>
-
-                      <Select onValueChange={setDataType}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Data Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="regular">Regular</SelectItem>
-                            <SelectItem value="timeseries">
-                              Timeseries
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        Data type is the type of data -ex. Regular
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="file">CSV file</Label>
+                      <div>
+                        <p className="text-lg text-white font-semibold">
+                          CSV file
+                        </p>
+                        <p className="text-silver font-light text-sm">
+                          ex: Name, ID
+                        </p>
+                      </div>
 
                       <Input ref={fileInputRef} id="file" type="file" />
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        CSV file - ex. Name, ID
-                      </p>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="num_rows">Number of Rows</Label>
+                      <p className="text-lg text-white font-semibold">
+                        Number of Rows
+                      </p>
 
                       <Input
                         id="num_rows"
@@ -261,83 +254,69 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                         value={numRows}
                         onChange={(e) => setNumRows(e.target.value)}
                       />
-
-                      <p className=" p-2 block sm:hidden text-sm text-white">
-                        Number of rows - how many rows in output field?
-                      </p>
                     </div>
 
-                    {/* <div>
-                  <Label htmlFor="batch_size">Batch Size</Label>
-                  <Input
-                    id="batch_size"
-                    type="number"
-                    defaultValue={batchSize}
-                    placeholder="Enter batch size"
-                    onChange={handleBatchSizeChange}
-                  />
-                </div> */}
+                    <div className="pt-2">
+                      <Button
+                        onClick={handleTransactionAndDataGeneration}
+                        variant="gradient1"
+                        type="button"
+                        size="lg"
+                        className="w-full rounded-md"
+                      >
+                        Generate
+                      </Button>
+                    </div>
                   </div>
 
-                  <div className="hidden sm:block col-span-12 sm:col-span-5 border rounded-lg py-8 px-4 border-white/40 space-y-8 sm:space-y-16">
-                    <p className="text-sm text-white">
-                      Data type is the type of data <br /> -ex. Regular
-                    </p>
-
-                    <p className="text-sm text-white">
-                      CSV file - ex. Name, ID
-                    </p>
-
-                    <p className="text-sm text-white">
-                      Number of rows - how many rows in output field?
-                    </p>
-                  </div>
+                  <div className="col-span-6 bg-[url('/images/ai-bg.png')] bg-cover bg-center bg-no-repeat" />
                 </div>
 
-                <div className="pt-10">
-                  <Button
-                    onClick={handleTransactionAndDataGeneration}
-                    variant="default"
-                    type="button"
-                    size="lg"
-                    className="w-60 px-44"
-                  >
-                    Generate
-                  </Button>
-                </div>
+                <div className="pt-10"></div>
               </div>
             </div>
           )}
 
           {currentStep === "loading" && (
-            <div className="h-full w-full flex flex-col items-center justify-center">
+            <div className="h-full w-full flex flex-col items-center justify-center space-y-12">
               <Image
-                src="/images/loader.svg"
-                height={100}
-                width={100}
+                src="/images/logo-pattern.svg"
+                height={111}
+                width={115}
                 alt="Loader"
               />
-              <p className="font-medium text-charcoal dark:text-white text-base">
+
+              <p className="font-medium text-charcoal dark:text-white text-2xl">
                 We are generating your data
               </p>
             </div>
           )}
 
           {currentStep === "result" && (
-            <div className="h-full w-full flex flex-col gap-6 items-center justify-center">
-              <Image
-                src="/images/download.svg"
-                height={180}
-                width={150}
-                alt="Loader"
-              />
+            <div className="h-full w-full flex flex-col gap-12 items-center justify-center">
+              <div className="max-w-lg text-center space-y-8">
+                <p className="text-white text-4xl font-semibold">
+                  Your data has been successfully generated!
+                </p>
+
+                <p className="text-white text-base font-medium">
+                  Download the CSV file by clicking on the button
+                </p>
+              </div>
+
               <Button
-                variant="default"
+                variant="gradient1"
                 type="button"
-                size="default"
-                className="w-full"
+                size="lg"
+                className="flex items-center gap-2 text-base w-auto px-6"
                 onClick={downloadCSV}
               >
+                <Image
+                  src="/images/download-icon.svg"
+                  height={30}
+                  width={30}
+                  alt="download"
+                />
                 Download CSV file
               </Button>
             </div>

@@ -46,8 +46,8 @@ const TopBar: FC = () => {
 
   return (
     <header
-      className={`fixed z-20 w-full transition-all duration-300 bg-gradient-to-l from-primary to-forestGreen ${
-        isScrolled ? "shadow-md py-3.5" : "py-4"
+      className={`fixed z-20 w-full transition-all duration-300  ${
+        isScrolled ? "shadow-md py-10" : "py-10"
       }`}
     >
       <div className="container flex items-center justify-between">
@@ -71,9 +71,9 @@ const TopBar: FC = () => {
         {/* Button Section */}
         <div className="flex items-center gap-5">
           <Button
-            variant="whiteBg"
-            size="default"
-            className="font-light"
+            variant="outline"
+            size="lg"
+            className="font-light text-lg"
             disabled={connecting}
             onClick={() => (wallet ? disconnect(wallet) : connect())}
           >
@@ -83,11 +83,11 @@ const TopBar: FC = () => {
               ? "Disconnect"
               : "Authorize with wallet"}
           </Button>
-          <Switch
+          {/* <Switch
             defaultChecked={true}
             id="theme-mode"
             onClick={toggleThemeHandler}
-          />
+          /> */}
         </div>
       </div>
     </header>

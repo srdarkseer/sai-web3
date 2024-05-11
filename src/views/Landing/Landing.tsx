@@ -12,8 +12,6 @@ const Landing = () => {
   const [attemptedConnectionFromSection, setAttemptedConnectionFromSection] =
     useState(false);
 
- 
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (wallet && attemptedConnectionFromSection) {
@@ -28,22 +26,27 @@ const Landing = () => {
     };
   }, [wallet, attemptedConnectionFromSection]);
 
-
-
   return (
-    <div className="h-[90vh] container flex items-center justify-center">
-      <div className="grid grid-cols-12 sm:h-[526px] gap-8 sm:gap-4">
-        <div className="col-span-12 sm:col-span-5 p-10 flex flex-col h-full justify-center gap-24 bg-white dark:bg-pine rounded-2xl shadow-lg">
-          <p className="text-charcoal dark:text-white text-base text-center font-medium leading-7 ">
-            &ldquo;Quickly generate synthetica data with LLMs and use $SAI as
-            gas.&ldquo;
-          </p>
+    <div className="h-[92vh] overflow-hidden bg-[url('/images/background.png')] bg-center bg-cover flex pt-32 sm:pt-0 items-start sm:items-center justify-center">
+      <div className="container sm:h-[581px]">
+        <div className=" px-4 sm:px-20 py-12 flex flex-col h-full bg-black bg-opacity-10 backdrop-blur-lg rounded-2xl shadow-custom-green space-y-8 sm:space-y-0">
+          <h1 className="text-[40px] sm:text-[150px] font-semibold  gradient-text">
+            SYNTHETIC V2
+          </h1>
 
-          <div className="w-full flex justify-center">
-            {wallet ? (
-              <div className="w-full">
-                <PopUpModal isOpen={isModalOpen} />
-                {/* <Button
+          <div className="w-full sm:w-1/2 space-y-12">
+            <p className="text-sm text-silver">
+              &apos;Authorize with wallet&apos; typically refers to the process
+              of granting access or permission to a service or application using
+              a digital wallet. A digital wallet is a software-based system that
+              securely stores users&apos; payment information and passwords for
+              numerous payment methods and websites.
+            </p>
+            <div className="w-full flex justify-start">
+              {wallet ? (
+                <div className="w-full">
+                  <PopUpModal isOpen={isModalOpen} />
+                  {/* <Button
                   variant="default"
                   size="lg"
                   className="w-full"
@@ -51,31 +54,23 @@ const Landing = () => {
                 >
                   Send Transaction
                 </Button> */}
-              </div>
-            ) : (
-              <Button
-                variant="default"
-                size="lg"
-                className="w-full"
-                onClick={() => {
-                  // Mark the connection attempt coming from this section and try to connect.
-                  setAttemptedConnectionFromSection(true);
-                  connect();
-                }}
-              >
-                Create Data
-              </Button>
-            )}
+                </div>
+              ) : (
+                <Button
+                  variant="gradient1"
+                  size="lg"
+                  className="w-full sm:w-72 text-xl font-normal"
+                  onClick={() => {
+                    // Mark the connection attempt coming from this section and try to connect.
+                    setAttemptedConnectionFromSection(true);
+                    connect();
+                  }}
+                >
+                  Create Data
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-
-        <div className="col-span-12 sm:col-span-7 flex h-full justify-center">
-          <Image
-            src="/images/sideImage.png"
-            height={242}
-            width={581}
-            alt="Side Image"
-          />
         </div>
       </div>
     </div>
