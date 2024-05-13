@@ -10,16 +10,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/components/CustomToast";
+import Dropzone from "@/components/Dropzone";
 
 import { saiContractABI } from "@/lib/contractABI";
 
@@ -43,7 +35,8 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
   const [numRows, setNumRows] = useState("");
   const [batchSize, setBatchSize] = useState("200");
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // State for the selected file
+  const [file, setFile] = useState<File | null>(null);
 
   // Attempt to open the dialog if isOpen changes to true
   useEffect(() => {
@@ -56,11 +49,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     let errors = [];
     if (!dataType) errors.push("data type");
     if (!numRows) errors.push("number of rows");
-    if (
-      !fileInputRef.current ||
-      !fileInputRef.current.files ||
-      fileInputRef.current.files.length === 0
-    ) {
+    if (!file) {
       errors.push("CSV file");
     }
 
@@ -81,8 +70,8 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     formData.append("data_type", dataType);
     formData.append("num_rows", numRows);
     formData.append("batch_size", batchSize);
-    if (fileInputRef.current?.files?.[0]) {
-      formData.append("file", fileInputRef.current.files[0]);
+    if (file) {
+      formData.append("file", file);
     }
 
     try {
@@ -177,7 +166,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     if (!validateForm()) return;
 
     try {
-      // await sendTransaction();
+      await sendTransaction();
       addToast("Transaction successful", "success");
       await handleSubmit();
     } catch (error) {
@@ -208,7 +197,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         <DialogContent
           className={
             currentStep === "form"
-              ? "bg-black "
+              ? "bg-black bg-[url('/images/form-bg.png')] bg-contain bg-right bg-no-repeat"
               : currentStep === "loading"
               ? "bg-black"
               : currentStep === "result"
@@ -239,7 +228,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
                         </p>
                       </div>
 
-                      <Input ref={fileInputRef} id="file" type="file" />
+                      <Dropzone onFileSelected={setFile} />
                     </div>
 
                     <div className="space-y-2">
