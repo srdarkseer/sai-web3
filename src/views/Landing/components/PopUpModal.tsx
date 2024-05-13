@@ -197,7 +197,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
         <DialogContent
           className={
             currentStep === "form"
-              ? "bg-black "
+              ? "bg-black bg-[url('/images/form-bg.png')] bg-contain bg-right bg-no-repeat"
               : currentStep === "loading"
               ? "bg-black"
               : currentStep === "result"
