@@ -166,7 +166,7 @@ const PopUpModal = ({ isOpen }: { isOpen: boolean }) => {
     if (!validateForm()) return;
 
     try {
-      // await sendTransaction();
+      await sendTransaction();
       addToast("Transaction successful", "success");
       await handleSubmit();
     } catch (error) {
